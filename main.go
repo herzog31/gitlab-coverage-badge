@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"os/exec"
 	"strconv"
 	"strings"
 )
@@ -54,22 +55,30 @@ func Badge(w http.ResponseWriter, r *http.Request) {
 
 func CoverageBadge(w http.ResponseWriter, r *http.Request, coverage string, color string) {
 	w.Header().Set("Content-Type", "image/svg+xml;charset=utf-8")
-	fmt.Fprintf(w, "Coverage %s%% in %s", coverage, color)
+	out, err := exec.Command("node", "/node-root/gh-badge.js", "coverage", fmt.Sprintf("%s%%", coverage), ":"+color, ".svg").Output()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fmt.Fprint(w, out)
 }
 
 func UnknownBadge(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "image/svg+xml;charset=utf-8")
-	fmt.Fprint(w, "Unknown")
+	out, err := exec.Command("node", "/node-root/gh-badge.js", "coverage", "unknown", ":lightgrey", ".svg").Output()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fmt.Fprint(w, out)
 }
 
 func main() {
-
 	gitlabHost = os.Getenv("GITLAB_HOST")
 	token = os.Getenv("TOKEN")
 
 	http.HandleFunc("/", Badge)
 	http.ListenAndServe(":8080", nil)
-
 }
 
 func getProjectID(api string, project string, token string) (string, error) {
