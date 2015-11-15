@@ -20,7 +20,7 @@ var (
 
 func Badge(w http.ResponseWriter, r *http.Request) {
 
-	projectName := url.QueryEscape(strings.TrimPrefix(strings.TrimSuffix(r.URL.Path, "/"), "/"))
+	projectName := url.QueryEscape(strings.TrimPrefix(strings.TrimSuffix(strings.TrimSuffix(r.URL.Path, "/"), ".svg"), "/"))
 	gitlabAPI := "http://" + gitlabHost + "/api/v3"
 	gitlabCIAPI := "http://" + gitlabHost + "/ci/api/v1"
 
@@ -60,7 +60,7 @@ func CoverageBadge(w http.ResponseWriter, r *http.Request, coverage string, colo
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Fprint(w, out)
+	fmt.Fprint(w, string(out))
 }
 
 func UnknownBadge(w http.ResponseWriter, r *http.Request) {
@@ -70,7 +70,7 @@ func UnknownBadge(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Fprint(w, out)
+	fmt.Fprint(w, string(out))
 }
 
 func main() {
