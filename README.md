@@ -9,7 +9,7 @@
 Run the container using the following command and adapt the environment variables and port as necessary.
 
 ```
-docker run -d -e TOKEN=YOURTOKEN -e GITLAB_HOST=gitlab.example.org -p 8080:8080 herzog31/gitlab-coverage-badge
+docker run -d -e TOKEN=YOURTOKEN -e GITLAB_HOST=https://gitlab.example.org -p 8080:8080 herzog31/gitlab-coverage-badge
 ```
 
 # Usage

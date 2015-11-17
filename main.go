@@ -21,8 +21,8 @@ var (
 func Badge(w http.ResponseWriter, r *http.Request) {
 
 	projectName := url.QueryEscape(strings.TrimPrefix(strings.TrimSuffix(strings.TrimSuffix(r.URL.Path, "/"), ".svg"), "/"))
-	gitlabAPI := "http://" + gitlabHost + "/api/v3"
-	gitlabCIAPI := "http://" + gitlabHost + "/ci/api/v1"
+	gitlabAPI := gitlabHost + "/api/v3"
+	gitlabCIAPI := gitlabHost + "/ci/api/v1"
 
 	projectId, err := getProjectID(gitlabAPI, projectName, token)
 	if err != nil {
