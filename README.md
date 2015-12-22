@@ -4,6 +4,7 @@
 [![Go](https://img.shields.io/badge/Go-1.5.1-blue.svg)](https://golang.org/)
 
 # Coverage Badge for Gitlab
+**Currently not working with Gitlab CE 8.3!**
 
 # Installation
 Run the container using the following command and adapt the environment variables and port as necessary.

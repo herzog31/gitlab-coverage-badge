@@ -19,7 +19,6 @@ var (
 )
 
 func Badge(w http.ResponseWriter, r *http.Request) {
-
 	projectName := url.QueryEscape(strings.TrimPrefix(strings.TrimSuffix(strings.TrimSuffix(r.URL.Path, "/"), ".svg"), "/"))
 	gitlabAPI := gitlabHost + "/api/v3"
 	gitlabCIAPI := gitlabHost + "/ci/api/v1"
@@ -174,8 +173,6 @@ func getProjectCIID(api string, projectId string, token string) (string, string,
 }
 
 func getCoverage(api string, ciId string, projectToken string, token string) (string, error) {
-	//http://gitlab.solid.marb.ec/ci/api/v1/commits?private_token=5smgizRRuFF5rwuhQFC5&project_token=2097a7fa110e56c2bca9e9355ce762&project_id=3&per_page=9999999
-
 	res, err := http.Get(api + "/commits/?private_token=" + token + "&project_token=" + projectToken + "&project_id=" + ciId + "&per_page=99999999")
 	if err != nil {
 		return "", err
